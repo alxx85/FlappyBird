@@ -20,16 +20,20 @@ public class PipeGenerator : ObjectPool
     {
         _elapsedTime += Time.deltaTime;
 
-        if (_elapsedTime >= _secondsBetwinSpawn)
+        if (_elapsedTime > _secondsBetwinSpawn)
         {
             if (TryGetObject(out GameObject pipe))
             {
                 _elapsedTime = 0;
+
                 float spawnPositionY = Random.Range(_minSpawnPositionY, _maxSpawnPositionY);
                 Vector3 spawnPoint = new Vector3(transform.position.x, spawnPositionY, transform.position.z);
+
                 pipe.SetActive(true);
                 pipe.transform.position = spawnPoint;
             }
         }
+
+        DisableObjectAbroadScreen();
     }
 }
