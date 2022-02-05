@@ -9,6 +9,8 @@ public class Game : MonoBehaviour
     [SerializeField] private StartScreen _startScreen;
     [SerializeField] private GameOverScreen _gameOverScreen;
 
+    private int _maxScore;
+
     private void OnEnable()
     {
         _startScreen.PlayButtonClick += OnPlayButtonClick;
@@ -21,18 +23,32 @@ public class Game : MonoBehaviour
         _startScreen.PlayButtonClick -= OnPlayButtonClick;
         _gameOverScreen.RestartButtonClick -= OnRestartButtonClick;
         _bird.GameOver -= OnGameOver;
+        PlayerPrefs.Save();
     }
 
     private void Start()
     {
         Time.timeScale = 0;
         _startScreen.Open();
+        
+        if (PlayerPrefs.HasKey("MaxScore"))
+        {
+            _maxScore = PlayerPrefs.GetInt("MaxScore");
+            Debug.Log(_maxScore);
+        }
     }
 
     public void OnGameOver()
     {
+        if (_bird.Score > _maxScore)
+        {
+            PlayerPrefs.SetInt("MaxScore", _bird.Score);
+        }
+        
+        _gameOverScreen.MaxScoreChanged(_maxScore);
         Time.timeScale = 0;
         _gameOverScreen.Open();
+
     }
 
     private void OnPlayButtonClick()

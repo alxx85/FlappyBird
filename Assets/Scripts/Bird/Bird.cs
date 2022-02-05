@@ -12,6 +12,8 @@ public class Bird : MonoBehaviour
     public event UnityAction GameOver;
     public event UnityAction<int> ScoreChanged;
 
+    public int Score => _score;
+
     private void Start()
     {
         _mover = GetComponent<BirdMover>();
