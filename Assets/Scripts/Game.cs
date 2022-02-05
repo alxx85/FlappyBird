@@ -42,6 +42,7 @@ public class Game : MonoBehaviour
     {
         if (_bird.Score > _maxScore)
         {
+            _maxScore = _bird.Score;
             PlayerPrefs.SetInt("MaxScore", _bird.Score);
         }
         
