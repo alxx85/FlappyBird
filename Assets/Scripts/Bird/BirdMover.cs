@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Rigidbody2D), typeof(Animator))]
 public class BirdMover : MonoBehaviour
 {
     [SerializeField] private Vector3 _startPosition;
@@ -12,12 +12,16 @@ public class BirdMover : MonoBehaviour
     [SerializeField] private float _maxRotationZ;
     [SerializeField] private float _minRotationZ;
 
+    private Animator _animator;
     private Rigidbody2D _rigidbody;
     private Quaternion _maxRotation;
     private Quaternion _minRotation;
 
+    private const string Wing = "WingBeat";
+
     private void Start()
     {
+        _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
 
         _maxRotation = Quaternion.Euler(0, 0, _maxRotationZ);
@@ -55,6 +59,7 @@ public class BirdMover : MonoBehaviour
 
     private void Movement()
     {
+        _animator.SetTrigger(Wing);
         _rigidbody.velocity = new Vector2(_speed, 0);
         transform.rotation = _maxRotation;
         _rigidbody.AddForce(Vector2.up * _tapForce, ForceMode2D.Force);
